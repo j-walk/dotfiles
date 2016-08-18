@@ -1,0 +1,12 @@
+*
+!.vim
+!.vimrc
+!.Xresources
+!.bashrc
+!.ghc/ghci.conf
+!.gitignore
+!.tmux.conf
+!.vimrc
+!.xinitrc
+!.xmobarrc
+!.xmonad/xmonad.hs

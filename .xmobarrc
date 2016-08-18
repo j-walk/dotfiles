@@ -1,0 +1,34 @@
+Config
+  { font = "xft:Monospace:size=6"
+  , bgColor = "#000000"
+  , fgColor = "#e6e1dc"
+  , position = Top
+  , lowerOnStart = True
+  , commands =
+    [ Run Cpu
+      [ "-L", "3"
+      , "-H", "50"
+      , "--normal", "#41bb75"
+      , "--high", "#cf4c66"
+      ] 10
+    , Run Memory
+      [ "-t", "memory: <usedratio>%"
+      , "-L", "33"
+      , "-H", "66"
+      , "--normal", "#41bb75"
+      , "--high", "#cf4c66"
+      ] 10
+    , Run Weather "KONT"
+      [ "-t", "<tempC>C"
+      , "-L", "10"
+      , "-H", "25"
+      , "--normal", "#607f8c"
+      , "--high", "#a05657"
+      ] 15000
+    , Run Date "<fc=#ff0000>%_d %b %H:%M:%S </fc>" "date" 10
+    , Run StdinReader
+    ]
+  , sepChar = "%"
+  , alignSep = "}{"
+  , template = "%StdinReader% } %date% { %memory% %cpu% "
+  }
