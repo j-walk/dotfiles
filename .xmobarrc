@@ -1,5 +1,5 @@
 Config
-  { font = "xft:Monospace:size=6"
+  { font = "xft:Monospace:size=8"
   , bgColor = "#000000"
   , fgColor = "#e6e1dc"
   , position = Top
@@ -25,10 +25,17 @@ Config
       , "--normal", "#607f8c"
       , "--high", "#a05657"
       ] 15000
+    , Run Network "enp3s0"
+      [ "-t", "<rx><icon=/home/alpha/.xmonad/icons/down-arrow.xpm/><tx><icon=/home/alpha/.xmonad/icons/up-arrow.xpm/>"
+      , "-L", "0"
+      , "-H", "32"
+      , "--normal","green"
+      , "--high","red"
+      ] 10
     , Run Date "<fc=#ff0000>%_d %b %H:%M:%S </fc>" "date" 10
     , Run StdinReader
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% } %date% { %memory% %cpu% "
+  , template = "%StdinReader% } %date% { %enp3s0% %memory% %cpu% "
   }

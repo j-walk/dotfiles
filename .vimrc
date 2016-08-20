@@ -17,6 +17,11 @@ call vundle#end()
 filetype plugin indent on
 syntax on
 
+
+xmap ga <Plug>(EasyAlign)
+
+nmap ga <Plug>(EasyAlign)
+
 set encoding=utf-8
 set list lcs=eol:¬,tab:»»,trail:_ " Trailing whitespace, tabs, and newlines
 set expandtab                     " Tabs must be spaces
