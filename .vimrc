@@ -3,6 +3,9 @@ set nocompatible
 
 filetype off
 
+
+
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -12,14 +15,14 @@ Plugin 'metakirby5/codi.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 Plugin 'bitc/vim-hdevtools'
+Plugin 'junegunn/vim-easy-align'
 
 call vundle#end()
 filetype plugin indent on
-syntax on
+syntax on           
 
 
 xmap ga <Plug>(EasyAlign)
-
 nmap ga <Plug>(EasyAlign)
 
 set encoding=utf-8
@@ -46,3 +49,6 @@ colorscheme hipster
 
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v',100) " highlight the 80th column
+
+
+noremap <C-m> :!make<cr>

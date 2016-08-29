@@ -27,6 +27,7 @@ main = do
   xmonad $ defaultConfig
     { terminal           = "urxvt"
     , modMask            = mod4Mask
+    , startupHook = setWMName "LG3D"
     , normalBorderColor  = "black"
     , focusedBorderColor = "crimson"
     , borderWidth        = 0
@@ -70,7 +71,7 @@ myManageHooks = (composeAll . concat $
     myMusic   = ["Rhythm", "Spotify"]
     myVM      = ["zathura", "KiCad", "Minecraft Launcher", "Minecraft"]
     myFloats  = ["feh", "Smplayer", "MPlayer", "mpv", "Xmessage", "XFontSel"
-                , "Downloads", "Nm-connection-editor", "cnping"]
+                , "Downloads", "Nm-connection-editor", "cnping", "Friends"]
 
 myLogHook h = dynamicLogWithPP $ defaultPP
   { ppOutput  = hPutStrLn h
