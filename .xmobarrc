@@ -1,8 +1,9 @@
 Config
   { font = "xft:Monospace:size=8"
   , bgColor = "#000000"
-  , fgColor = "#e6e1dc"
-  , position = Top
+  , fgColor = "#333333"
+  , alpha = 217
+  , position = TopW L 100
   , lowerOnStart = True
   , commands =
     [ Run Cpu
@@ -33,9 +34,9 @@ Config
       , "--high","red"
       ] 10
     , Run Date "<fc=#ff0000>%_d %b %H:%M:%S </fc>" "date" 10
-    , Run StdinReader
+    , Run UnsafeStdinReader
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% } %date% { %enp3s0% %memory% %cpu% "
+  , template = "%UnsafeStdinReader% } <action=xdotool super+shift+enter><icon=/home/alpha/.xmonad/icons/mini.clock2.xpm/> %date%</action> { %enp3s0% %memory% %cpu% "
   }

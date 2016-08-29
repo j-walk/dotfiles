@@ -21,34 +21,40 @@ import qualified XMonad.StackSet as W
 
 backgroundColor = "#000000"
 
+myWorkspaces = clickable $ map show [1..5]
+  where
+    clickable l = [ "<action=xdotool key super+" ++ show n ++ ">" ++ ws ++
+                    "</action>" | (i,ws) <- zip [1..5] l,let n = i ]
+
 main = do
   xmproc <- spawnPipe "/home/alpha/.cabal/bin/xmobar"
 
-  xmonad $ defaultConfig
+  xmonad $ def
     { terminal           = "urxvt"
     , modMask            = mod4Mask
+    , startupHook = setWMName "LG3D"
     , normalBorderColor  = "black"
     , focusedBorderColor = "crimson"
     , borderWidth        = 0
-    , workspaces         = map show [1..9]
+    , workspaces         = myWorkspaces
     , manageHook         = myManageHooks
     , logHook            = myLogHook xmproc
     , layoutHook         = smartBorders $ avoidStruts
-      (   Tall 1 (3/100) (1/2)
+      (   Mirror (smartBorders $ ResizableTall 1 (3/100) (1/2) [])
       ||| ThreeColMid 1 (3/100) (1/2)
-      ||| Mirror (smartBorders $ ResizableTall 1 (3/100) (1/2) [])
+      ||| Tall 1 (3/100) (1/2)
       ||| Full
       )
-    } `removeKeysP` [
-      "M-p"
-    , "M-P"
-    ] `additionalKeysP` [
-      ("M-p", spawn "rofi -show run")
-    , ("M-L", spawn "lock.sh")
-    , ("M-P", spawn "teiler")
+    } `additionalKeysP` [
+      ("M-;", spawn "rofi -show run -fg \"#FFFFFF\" -bg \"#14121b\" -hlfg \"#F\
+                    \FFFFF\" -hlbg \"#02813d\" -bgalt \"#14121b\" -lines 3 -fo\
+                    \nt \"Hack 10\" -hide-scrollbar -opacity \"85\" -separator\
+                    \-style \"none\" -line-margin 7 -padding 340 -width 100")
+    , ("M-p", spawn "teiler --quick area")
+    , ("M-b", sendMessage ToggleStruts)
     ]
 
-myManageHooks = (composeAll . concat $
+myManageHooks = composeAll . concat $
   [ [resource     =? s --> doIgnore      | s <- myIgnores ]
   , [className    =? s --> doShift "1"   | s <- myTerm    ]
   , [className    =? s --> doShift "2"   | s <- myWeb     ]
@@ -58,42 +64,39 @@ myManageHooks = (composeAll . concat $
   , [className    =? s --> doCenterFloat | s <- myFloats  ]
   , [isFullscreen      --> myDoFullFloat                  ]
   , [isDialog          --> doCenterFloat                  ]
-  ])
+  ]
   where
     myDoFullFloat :: ManageHook
     myDoFullFloat = doF W.focusDown <+> doFullFloat
 
-    myIgnores = ["Mumble Configuration"]
-    myTerm    = ["Termite", "xterm", "urxvt", "Gvim"]
-    myWeb     = ["Firefox", "Google-chrome", "Chromeium", "Chromium-browser"]
-    myChat    = ["Telegram", "Mumble", "Discord"]
-    myMusic   = ["Rhythm", "Spotify"]
-    myVM      = ["zathura", "KiCad", "Minecraft Launcher", "Minecraft"]
-    myFloats  = ["feh", "Smplayer", "MPlayer", "mpv", "Xmessage", "XFontSel"
-                , "Downloads", "Nm-connection-editor", "cnping"]
+    myIgnores = [ "Mumble Configuration"]
+    myTerm    = [ "Termite", "xterm", "urxvt", "Gvim"]
+    myWeb     = [ "Mozilla Firefox", "Google-chrome", "Chromeium"
+                , "Chromium-browser"]
+    myChat    = [ "Telegram", "Mumble", "Discord"]
+    myMusic   = [ "Rhythm", "Spotify"]
+    myVM      = [ "zathura", "KiCad"]
+    myFloats  = [ "feh", "Smplayer", "MPlayer", "mpv", "Xmessage", "XFontSel"
+                , "Downloads", "Nm-connection-editor", "cnping", "Friends"]
 
-myLogHook h = dynamicLogWithPP $ defaultPP
+myLogHook h = dynamicLogWithPP $ def
   { ppOutput  = hPutStrLn h
+  , ppTitle   = xmobarColor "white" "" . shorten 50
   , ppCurrent = xmobarColor "#FF0000" backgroundColor . pad
   , ppHidden  = xmobarColor "white" backgroundColor . pad
-  , ppHiddenNoWindows = xmobarColor "#7b7b7b" backgroundColor . pad
-  , ppUrgent  = xmobarColor "black" "red" . pad
+  , ppHiddenNoWindows = pad . const " "
+  , ppUrgent  = xmobarColor "white" "red" . pad
   , ppWsSep   = ""
   , ppSep     = ""
-  , ppLayout  = xmobarColor "#FF0000" backgroundColor . _layout2xpm
+  , ppLayout  = xmobarColor "#FF0000" backgroundColor
+              . (\x -> "<action=xdotool key super+space>" ++ x ++ "</action>")
+              . _layout2xpm 
   }
   where
 
-    _layout2text "Full"        = "[ # ] "
-    _layout2text "Tall"        = "[ | ] "
-    _layout2text "ThreeCol"    = "[|||] "
-    _layout2text "Mirror ReizeableTall" =
-                                 "[ T ] "
-    _layout2text x             = x
-
-    _layout2xpm "Full"         = "<icon=/home/alpha/.xmonad/icons/Full.xpm/>"
-    _layout2xpm "Tall"         = "<icon=/home/alpha/.xmonad/icons/Tall.xpm/>"
-    _layout2xpm "ThreeCol"     = "<icon=/home/alpha/.xmonad/icons/ThreeCol.xpm/>"
+    _layout2xpm "Full"     = "<icon=/home/alpha/.xmonad/icons/Full.xpm/>"
+    _layout2xpm "Tall"     = "<icon=/home/alpha/.xmonad/icons/Tall.xpm/>"
+    _layout2xpm "ThreeCol" = "<icon=/home/alpha/.xmonad/icons/ThreeCol.xpm/>"
     _layout2xpm "Mirror ResizableTall" =
                                 "<icon=/home/alpha/.xmonad/icons/Mirror.xpm/>"
-    _layout2xpm x              = x
+    _layout2xpm x          = x

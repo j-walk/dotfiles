@@ -3,6 +3,9 @@ set nocompatible
 
 filetype off
 
+
+
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -12,15 +15,18 @@ Plugin 'metakirby5/codi.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 Plugin 'bitc/vim-hdevtools'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'idris-hackers/idris-vim'
 
 call vundle#end()
 filetype plugin indent on
-syntax on
+syntax on           
 
 
 xmap ga <Plug>(EasyAlign)
-
 nmap ga <Plug>(EasyAlign)
+
+let mapleader=" "
 
 set encoding=utf-8
 set list lcs=eol:¬,tab:»»,trail:_ " Trailing whitespace, tabs, and newlines
@@ -46,3 +52,4 @@ colorscheme hipster
 
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v',100) " highlight the 80th column
+
