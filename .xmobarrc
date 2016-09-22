@@ -2,7 +2,7 @@ Config
   { font = "xft:Monospace:size=8"
   , bgColor = "#000000"
   , fgColor = "#333333"
-  , alpha = 217
+  -- , alpha = 217
   , position = TopW L 100
   , lowerOnStart = True
   , commands =

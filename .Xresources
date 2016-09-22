@@ -25,12 +25,12 @@ URxvt*colorUL             : #4682B4
 URxvt*resize-font.smaller : C-Down
 URxvt*resize-font.bigger  : C-Up
 
-URxvt.transparent:   true
-URxvt.shading:       15
+! URxvt.transparent:   true
+! URxvt.shading:       15
 
 ! special
 *.foreground:   #e6e1dc
-*.background:   #2b2b2b
+*.background:   #000000
 *.cursorColor:  #e6e1dc
 
 ! black

@@ -52,6 +52,9 @@ main = do
                     \-style \"none\" -line-margin 7 -padding 340 -width 100")
     , ("M-p", spawn "teiler --quick area")
     , ("M-b", sendMessage ToggleStruts)
+    , ("M-u", spawn "pulsemixer --toggle-mute")
+    , ("M-i", spawn "pulsemixer --change-volume +5")
+    , ("M-o", spawn "pulsemixer --change-volume -5")
     ]
 
 myManageHooks = composeAll . concat $

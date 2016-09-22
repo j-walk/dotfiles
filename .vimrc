@@ -3,8 +3,9 @@ set nocompatible
 
 filetype off
 
+set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME
 
-
+syntax on
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -18,9 +19,10 @@ Plugin 'bitc/vim-hdevtools'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'idris-hackers/idris-vim'
 
+let g:validator_haskell_checkers = ['hlint']
+
 call vundle#end()
 filetype plugin indent on
-syntax on           
 
 
 xmap ga <Plug>(EasyAlign)
