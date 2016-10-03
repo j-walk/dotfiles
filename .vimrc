@@ -7,22 +7,34 @@ set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME
 
 syntax on
 
+
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+
 Plugin 'tpope/vim-fugitive'
-Plugin 'metakirby5/codi.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
-Plugin 'bitc/vim-hdevtools'
 Plugin 'junegunn/vim-easy-align'
-Plugin 'idris-hackers/idris-vim'
-
-let g:validator_haskell_checkers = ['hlint']
+" Plugin 'idris-hackers/idris-vim'
+" Plugin 'nbouscal/vim-stylish-haskell'
+" Plugin 'metakirby5/codi.vim'
+" Plugin 'bitc/vim-hdevtools'
 
 call vundle#end()
 filetype plugin indent on
+syntax on
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 
 xmap ga <Plug>(EasyAlign)

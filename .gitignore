@@ -1,5 +1,5 @@
 *
-!.vim/*
+!.vim/
 .vim/bundle
 !.vimrc
 !.Xresources
@@ -9,5 +9,6 @@
 !.tmux.conf
 !.vimrc
 !.xinitrc
-!.xmobarrc
 !.xmonad/xmonad.hs
+!.xmonad/.xmobarrc
+!.xmonad/icons/*
