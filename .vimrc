@@ -3,21 +3,22 @@ set nocompatible
 
 filetype off
 
-set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME
-
-syntax on
-
-
-
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 Plugin 'junegunn/vim-easy-align'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Valloric/YouCompleteMe'
+
+" Plugin 'junegunn/limelight.vim'
+" Plugin 'tpope/vim-fugitive'
 " Plugin 'idris-hackers/idris-vim'
 " Plugin 'nbouscal/vim-stylish-haskell'
 " Plugin 'metakirby5/codi.vim'
@@ -27,15 +28,27 @@ call vundle#end()
 filetype plugin indent on
 syntax on
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+let g:syntastic_haskell_checkers = ['hlint']
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+autocmd BufRead,BufNewFile ~/.xmonad/* call s:add_xmonad_path()
+function! s:add_xmonad_path()
+  if !exists('b:ghcmod_ghc_options')
+    let b:ghcmod_ghc_options = []
+  endif
+  call add(b:ghcmod_ghc_options, '-i' . expand('~/.xmonad/lib'))
+endfunction
+
+map <C-n> :NERDTreeToggle<CR>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -43,7 +56,7 @@ nmap ga <Plug>(EasyAlign)
 let mapleader=" "
 
 set encoding=utf-8
-set list lcs=eol:¬,tab:»»,trail:_ " Trailing whitespace, tabs, and newlines
+set list lcs=eol:¬                " Trailing whitespace, tabs, and newlines
 set expandtab                     " Tabs must be spaces
 set tabstop=2                     " Tabs must be 2 spaces
 set shiftwidth=2
@@ -67,3 +80,8 @@ colorscheme hipster
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%81v',100) " highlight the 80th column
 
+highlight ColorEnd ctermbg=red
+call matchadd('ColorEnd', '\s\s*$', 100)
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif

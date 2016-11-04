@@ -19,7 +19,8 @@ import           XMonad.Util.Run             (spawnPipe)
 
 import qualified XMonad.StackSet             as W
 
-backgroundColor = "#000000"
+backgroundColor = "#181818"
+foregroundColor = "#cdcfce"
 
 myWorkspaces = clickable $ map show [1..5]
   where
@@ -52,6 +53,7 @@ main = do
     , ("M-i", spawn "pulsemixer --change-volume +5")
     , ("M-o", spawn "pulsemixer --change-volume -5")
     , ("M-b", sendMessage ToggleStruts)
+    , ("M-f", spawn "urxvt -e tmux new-session -Asu2 main")
     ]
 
 myLayoutHook = smartBorders $ avoidStruts

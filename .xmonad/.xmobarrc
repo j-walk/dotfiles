@@ -1,0 +1,44 @@
+Config
+  { font = "xft:Monospace:size=8"
+  , bgColor = "#181818"
+  , fgColor = "#cdcfce"
+--, alpha = 200
+  , position = TopW L 100
+  , lowerOnStart = True
+  , hideOnStart = False
+  , commands =
+    [ Run Cpu
+      [ "-L", "3"
+      , "-H", "50"
+      , "--normal", "#41bb75"
+      , "--high", "#cf4c66"
+      ] 10
+    , Run Memory
+      [ "-t", "memory: <usedratio>%"
+      , "-L", "33"
+      , "-H", "66"
+      , "--normal", "#41bb75"
+      , "--high", "#cf4c66"
+      ] 10
+    , Run Weather "KONT"
+      [ "-t", "<tempC>C"
+      , "-L", "10"
+      , "-H", "25"
+      , "--normal", "#607f8c"
+      , "--high", "#a05657"
+      ] 15000
+    , Run Network "enp3s0"
+      [ "-t", "<rx><icon=/home/alpha/.xmonad/icons/down-arrow.xpm/><tx><icon=/home/alpha/.xmonad/icons/up-arrow.xpm/>"
+      , "-L", "0"
+      , "-H", "32"
+      , "--normal","green"
+      , "--high","red"
+      ] 10
+    , Run Date "<fc=#ff0000>%H%M %_d %b</fc>" "date" 10
+    , Run Locks
+    , Run UnsafeStdinReader
+    ]
+  , sepChar = "%"
+  , alignSep = "}{"
+  , template = "%date%  %locks% } %UnsafeStdinReader% { %enp3s0% %memory% %cpu% "
+  }
