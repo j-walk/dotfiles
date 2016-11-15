@@ -27,8 +27,10 @@ urxvt*depth: 32
 
 #include "/home/alpha/.config/x/colours/washed"
 
-URxvt*imLocale       : en_US.UTF-8
-URxvt*font           : xft:Mono:size=8
+urxvt*font: xft:DejaVu Sans Mono:style=Book:antialias=true:size=8, \
+            xft:WenQuanYi Bitmap Song:size=8, \
+            xft:FreeSerif:style=Regular, \
+            xft:unifont:style=Medium:antialias=false
 
 rofi.lines           : 4
 rofi.width           : 25
