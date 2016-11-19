@@ -19,6 +19,11 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'wincent/command-t'
 Plugin 'tpope/vim-fugitive'
 
+Plugin 'mattn/webapi-vim'
+Plugin 'mattn/gist-vim'
+
+Plugin 'Shougo/vimproc.vim'
+
 call vundle#end()
 filetype plugin indent on
 syntax on
@@ -71,7 +76,6 @@ highlight ColorEnd ctermbg=red
 call matchadd('ColorEnd', '\s\s*$', 100)
 
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
