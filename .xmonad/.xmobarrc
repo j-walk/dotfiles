@@ -1,8 +1,7 @@
 Config
-  { font = "xft:Monospace:size=8"
-  , bgColor = "#181818"
+  { font = "xft:Mono:size=8"
   , fgColor = "#cdcfce"
---, alpha = 200
+  -- , alpha = 200
   , position = TopW L 100
   , lowerOnStart = True
   , hideOnStart = False
@@ -40,5 +39,5 @@ Config
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%date%  %locks% } %UnsafeStdinReader% { %enp3s0% %memory% %cpu% "
+  , template = "%date% | %memory% %cpu% %enp3s0% } %UnsafeStdinReader% {"
   }

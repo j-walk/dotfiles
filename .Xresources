@@ -19,8 +19,8 @@ URxvt*colorUL             : #4682B4
 URxvt*resize-font.smaller : C-Down
 URxvt*resize-font.bigger  : C-Up
 
-urxvt*depth: 32
-!urxvt*background: rgba:0000/0000/0200/c800
+urxvt*depth               : 32
+! urxvt*background          : rgba:0000/0000/0000/c800
 
 !----------
 

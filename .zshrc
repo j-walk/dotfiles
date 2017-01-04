@@ -7,7 +7,12 @@ function hs() {
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 }
 
-PATH=$PATH:~/.cabal/bin:/home/alpha/.gem/ruby/2.3.0/bin
+PATH=$PATH:~/.cabal/bin
+PATH=$PATH:~/.gem/ruby/2.3.0/bin
+PATH=$PATH:~/.cargo/bin
+PATH=$PATH:~/.cargo/env
+GOPATH=~/.gopath
+
 
 
 if [ "$TERM" = "screen-256color" ]

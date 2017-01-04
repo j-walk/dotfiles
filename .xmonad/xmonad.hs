@@ -53,7 +53,7 @@ main = do
     , ("M-i", spawn "pulsemixer --change-volume +5")
     , ("M-o", spawn "pulsemixer --change-volume -5")
     , ("M-b", sendMessage ToggleStruts)
-    , ("M-f", spawn "urxvt -e tmux new-session -Asu2 main")
+    , ("M-\\", spawn "wacomTouch")
     ]
 
 myLayoutHook = smartBorders $ avoidStruts
