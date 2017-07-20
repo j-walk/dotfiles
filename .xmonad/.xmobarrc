@@ -1,10 +1,9 @@
 Config
-  { font = "xft:Mono:size=8"
+  { font = "xft:Dejavu:size=10"
+  , bgColor = "#181818"
   , fgColor = "#cdcfce"
-  -- , alpha = 200
   , position = TopW L 100
   , lowerOnStart = True
-  , hideOnStart = False
   , commands =
     [ Run Cpu
       [ "-L", "3"
@@ -26,18 +25,18 @@ Config
       , "--normal", "#607f8c"
       , "--high", "#a05657"
       ] 15000
-    , Run Network "enp3s0"
-      [ "-t", "<rx><icon=/home/alpha/.xmonad/icons/down-arrow.xpm/><tx><icon=/home/alpha/.xmonad/icons/up-arrow.xpm/>"
+    , Run Network "enp4s0"
+      [ "-t", "<rx><icon=/home/voltz/.xmonad/icons/down-arrow.xpm/><tx><icon=/home/voltz/.xmonad/icons/up-arrow.xpm/>"
       , "-L", "0"
       , "-H", "32"
       , "--normal","green"
       , "--high","red"
       ] 10
-    , Run Date "<fc=#ff0000>%H%M %_d %b</fc>" "date" 10
+    , Run Date "<fc=#ff0000>%H:%M %_d %b</fc>" "date" 10
     , Run Locks
     , Run UnsafeStdinReader
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%date% | %memory% %cpu% %enp3s0% } %UnsafeStdinReader% {"
+  , template = "%UnsafeStdinReader% } { %date% | %memory% %cpu% %enp4s0% %KONT%"
   }
