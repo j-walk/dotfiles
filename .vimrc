@@ -1,5 +1,6 @@
     " Welcome to the wonderful world of my .vimrc
 
+autocmd! 
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -11,19 +12,15 @@ Plugin 'vim-scripts/vim-auto-save'   " Auto save
 Plugin 'wincent/command-t'           " Fuzzy file finder
 Plugin 'scrooloose/syntastic'        " Style checker
 
-Plugin 'mattn/webapi-vim'            " web API
-Plugin 'Shougo/vimproc.vim'          " VimProc + VimShell for interactive things
-Plugin 'Shougo/vimshell.vim'
-Plugin 'tpope/vim-dispatch'          " Asynchronously dispatch commands
-
 Plugin 'tpope/vim-surround'          " Changing the surround (quotes, parenthesies, etc)
 Plugin 'junegunn/vim-easy-align'     " Easy alignment of text objects
 
-Plugin 'idris-hackers/idris-vim'     " Interactive idris vim 
+Plugin 'Shougo/vimproc.vim'          " VimProc + VimShell for interactive things
+Plugin 'Shougo/vimshell.vim'
 
-Plugin 'mattn/gist-vim'              " Create Gists from inside Vim
+Plugin 'rust-lang/rust.vim'
 
-Plugin 'udalov/kotlin-vim'
+Plugin 'eagletmt/ghcmod-vim'
 
 call vundle#end()                    " Vundle says this is needed
 filetype plugin indent on
@@ -42,10 +39,13 @@ let g:auto_save = 1                          " autosave options
 let g:auto_save_no_updatetime = 1
 let g:auto_save_in_insert_mode = 0
 
-let g:vimshell_prompt = "> "                 " vimshell prompt, like PS1
+let g:vimshell_prompt = "> "
 
-set directory=$HOME/.vim/swapfiles// " swapfiles
+let g:syntastic_rust_checkers = ['cargo']
 
+let &colorcolumn=join(range(81,999),",")
+
+set directory=~/.vim/swapfiles    " swapfiles
 set nocompatible                  " the 'm' is important
 set encoding=utf-8
 set expandtab                     " Tabs must be spaces
@@ -68,9 +68,17 @@ set textwidth=0 wrapmargin=0
 
 colorscheme hipster               " The Hipster color scheme, thanks Conner
 
+" see :h syntastic-loclist-callback
+function! SyntasticCheckHook(errors)
+  if !empty(a:errors)
+    let g:syntastic_loc_list_height = min([len(a:errors), 10])
+  endif
+endfunction
+
   " I like underlines
 hi CursorLine cterm=underline ctermbg=NONE
 hi Search     cterm=underline ctermbg=NONE
+hi ColorColumn ctermbg=235 guibg=#2c2d27
 
   " Easy align, which I almost never use
 xmap ga <Plug>(EasyAlign)
@@ -90,8 +98,4 @@ nnoremap <leader>h <C-w>h
 nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
 nnoremap <leader>l <C-w>l
-
-" nnoremap <leader>d :Dispatch 
-
-nnoremap <silent> <C-d> :lclose<CR>:bdelete<CR>
 

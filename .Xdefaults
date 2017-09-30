@@ -22,19 +22,26 @@ URxvt*resize-font.bigger  : C-Up
 urxvt*depth               : 32
 ! urxvt*background          : rgba:0000/0000/0000/c800
 
-!----------
+! #include "/home/voltz/.config/Colorschemes/washed.xresources"
 
-!urxvt*font: xft:DejaVu Sans Mono:style=Book:antialias=true:size=12, \
-!            xft:WenQuanYi Bitmap Song:size=8, \
-!            xft:FreeSerif:style=Regular, \
-!            xft:unifont:style=Medium:antialias=false
+urxvt*font: xft:Iosevka Nerd Font Mono:style=Regular:size=12
 
-#include "/home/voltz/.config/Colorschemes/washed.xresources"
+rofi.hide-scrollbar : true
+rofi.lines : 8
+rofi.borderwidth : 10
+rofi.auto-select : false
+rofi.show : run
+rofi.modi : run,colorscheme:rofi-colorscheme-switch,ssh
+rofi.sidebar-mode: true
+rofi.seperator-style : solid
+
+
 
 ! rofi.lines           : 4
-! rofi.width           : 10
-! rofi.borderwidth     : 1
-! rofi.color-window    : #181818, #181818
-! rofi.color-normal    : #181818, #cdcfce, #181818, #cdcfce, #181818
-! rofi.separator-style : none
+! rofi.width           : 25
+! rofi.borderwidth     : 3
+! rofi.auto-select     : false
 ! rofi.hide-scrollbar  : true
+! rofi.color-window    : #181818, #181818
+! rofi.color-normal    : #181818, #cdcfce, #181818, c9, #181818
+! rofi.separator-style : solid

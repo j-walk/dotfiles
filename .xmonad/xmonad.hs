@@ -1,36 +1,34 @@
-import           System.Exit
 import           System.IO
 
 import           XMonad
 
 import           XMonad.Config.Desktop
 
-import           XMonad.Prompt
 import           XMonad.Prompt.RunOrRaise
 
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
-import           XMonad.Hooks.ManageHelpers
 import           XMonad.Hooks.SetWMName
+import           XMonad.Hooks.UrgencyHook
 
-import           XMonad.Layout.Fullscreen
-import           XMonad.Layout.NoBorders
 import           XMonad.Layout.ResizableTile
-import           XMonad.Layout.SimpleFloat
-import           XMonad.Layout.ThreeColumns
 import           XMonad.Layout.Spacing
+import           XMonad.Layout.Grid
 
 import           XMonad.Util.EZConfig
-import           XMonad.Util.Run             (spawnPipe)
+import           XMonad.Util.Run
+import           XMonad.Util.NamedWindows
 
-import qualified XMonad.StackSet             as W
-import qualified Data.Map                    as M
+import qualified XMonad.StackSet as W
 
+backgroundColor :: String
 backgroundColor = "#181818"
+foregroundColor :: String
 foregroundColor = "#cdcfce"
 
-myWorkspaces = map show [1..5]
+myWorkspaces = map show [1..9]
 
+main :: IO ()
 main = do
   xmproc <- spawnPipe "~/.cabal/bin/xmobar ~/.xmonad/.xmobarrc"
 
@@ -39,86 +37,82 @@ main = do
     , modMask            = mod4Mask
     , startupHook        = myStartupHook
     , normalBorderColor  = "black"
-    , focusedBorderColor = "crimson"
-    , borderWidth        = 0
+    , focusedBorderColor = "#222"
+    , borderWidth        = 1
     , workspaces         = myWorkspaces
     , logHook            = myLogHook xmproc
     , handleEventHook    = docksEventHook
     , layoutHook         = myLayoutHook
     } `additionalKeys` myKeys
     
-
-myKeys = 
-  [ ((mod4Mask, xK_p), spawn "teiler --quick image area")
-  , ((mod4Mask, xK_u), spawn "pulseMixer --toggle-mute")
-  , ((mod4Mask, xK_i), spawn "pulsemixer --change-volume +5")
-  , ((mod4Mask, xK_o), spawn "pulsemixer --change-volume -5")
-  , ((mod4Mask, xK_b), sendMessage $ ToggleStrut U)
-  , ((mod4Mask .|. shiftMask, xK_n), setSpacing 10)
-  , ((mod4Mask .|. shiftMask, xK_b), setSpacing 0)
-  , ((mod4Mask, xK_semicolon), spawn "rofil")
-                 --  "rofi -show run -fg \"#FFFFFF\" -bg \"#14121b\" -hlfg \"#F\
-                 --  \FFFFF\" -hlbg \"#02813d\" -bgalt \"#14121b\" -lines 3 -fo\
-                 --  \nt \"Hack 10\" -hide-scrollbar -opacity \"85\" -separator\
-                 --  \-style \"none\" -line-margin 7 -padding 340 -width 100"   )
-  ]
-
+myStartupHook :: X ()
 myStartupHook = do
   spawn "xrdb ~/.Xresources"
   spawn "pulseaudio"
+  spawn "mpd"
   spawn "twmnd"
-  spawn "feh --bg-scale $HOME/.bg/keyboards.png"
+  -- spawn "feh --bg-scale $HOME/.bg/keyboards.png"
+  spawn "hashwall -b '#181818' -f '#222' -s 12"
   spawn "setxkbmap -option caps:super"
+  -- spawn "compton"
   setWMName "LG3D"
+  spawn "colorscheme-switch -s washed"
   docksStartupHook
 
-myLayoutHook = avoidStrutsOn [U]  $
-  (   Mirror (ResizableTall 1 (3/100) (1/2) [])
-  ||| Tall 1 (3/100) (1/2)
-  ||| smartSpacing 5 (Mirror (ResizableTall 1 (3/100) (1/2) []))
-  ||| smartSpacing 5 (Tall 1 (3/100) (1/2))
-  ||| Full
-  )
 
-myManageHooks = composeAll . concat $
-  [ [resource     =? s --> doIgnore      | s <- myIgnores ]
-  , [className    =? s --> doShift "1"   | s <- myTerm    ]
-  , [className    =? s --> doShift "2"   | s <- myWeb     ]
-  , [className    =? s --> doShift "3"   | s <- myChat    ]
-  , [className    =? s --> doShift "4"   | s <- myMusic   ]
-  , [className    =? s --> doShift "5"   | s <- myVM      ]
-  , [className    =? s --> doCenterFloat | s <- myFloats  ]
-  , [isFullscreen      --> myDoFullFloat                  ]
-  , [isDialog          --> doCenterFloat                  ]
+myKeys :: [((KeyMask, KeySym), X ())]
+myKeys =
+  [ ((mod4Mask, xK_semicolon)
+    , spawn "rofi -show run")
+     -- spawn Rofi my dude
+  , ((mod4Mask, xK_p)
+    , spawn "teiler --quick image area")
+    -- Teiler is a really nice wrapper around slop and ffmpeg
+  , ((mod4Mask, xK_u)
+    , spawn "pulseMixer --toggle-mute")
+    -- toggle my audio
+  , ((mod4Mask, xK_i)
+    , spawn "pulsemixer --change-volume +5")
+    -- +5 volume
+  , ((mod4Mask, xK_o)
+    , spawn "pulsemixer --change-volume -5")
+    -- -5 volume
+  , ((mod4Mask, xK_b)
+    , sendMessage $ ToggleStrut U)
+    -- toggle the bar at the top(U)
+  , ((mod4Mask, xK_a)
+    , sendMessage MirrorShrink)
+  , ((mod4Mask, xK_z)
+    , sendMessage MirrorExpand)
   ]
-  where
-    myDoFullFloat :: ManageHook
-    myDoFullFloat = doF W.focusDown <+> doFullFloat
-    myIgnores = []
-    myTerm    = ["Termite", "xterm", "urxvt"]
-    myWeb     = ["Firefox", "Google-chrome", "Chromeium"]
-    myChat    = ["Telegram", "Mumble", "Discord"]
-    myMusic   = ["Spotify"]
-    myVM      = ["zathura", "KiCad"]
-    myFloats  = ["feh", "Smplayer", "MPlayer", "mpv", "Xmessage", "XFontSel"
-                , "Downloads", "Nm-connection-editor", "cnping", "Friends"
-                , "Mumble Configuration"]
 
-myLogHook h = dynamicLogWithPP $ def
-  { ppOutput  = hPutStrLn h
-  , ppTitle   = const ""
-  , ppCurrent = xmobarColor "red" backgroundColor . pad . const "●"
-  , ppHidden  = xmobarColor foregroundColor backgroundColor . pad . const "○"
-  , ppHiddenNoWindows = pad . const " "
-  , ppUrgent  = xmobarColor foregroundColor "red" . pad
-  , ppWsSep   = ""
-  , ppSep     = ""
-  , ppLayout  = xmobarColor foregroundColor backgroundColor . pad . const ""
-  }
-  where
-    iconPath = "/home/voltz/.xmonad/icons/"
+myLayoutHook = avoidStrutsOn [U]  $
+               Grid
+           ||| Mirror (ResizableTall 1 (3/100) (1/2) [])
+           ||| ResizableTall 1 (3/100) (1/2) []
+           ||| Full
 
-    _layout2xpm "Full"     = "<icon=" ++ iconPath ++ "/Full.xpm/> "
-    _layout2xpm "Tall"     = "<icon=" ++ iconPath ++ "/Tall.xpm/> "
-    _layout2xpm "ThreeCol" = "<icon=" ++ iconPath ++ "/ThreeCol.xpm/> "
-    _layout2xpm _          = "<icon=" ++ iconPath ++ "/unknown.xpm/> "
+myLogHook :: Handle -> X ()
+myLogHook h = dynamicLogWithPP $
+   xmobarPP { ppOutput  = hPutStrLn h
+            , ppTitle   = xmobarColor "#d15c83" backgroundColor
+                          . pad
+                          . shorten 50
+            , ppCurrent = xmobarColor "#d15c83" backgroundColor
+                          . pad
+                          . const "●"
+            , ppHidden  = xmobarColor foregroundColor backgroundColor
+                          . pad
+                          . const "○"
+            , ppHiddenNoWindows = pad
+                                  . const "○"
+            , ppLayout  = xmobarColor foregroundColor backgroundColor
+                          . pad
+            }
+            where
+              clickable t a = "<action=" ++ a ++ ">" ++ t ++ "</action>"
+              icon n = "<icon=/home/voltz/.xmonad/icons/" ++ n ++ "/>"
+              layoutMap "Full"     = icon "Full.xpm"
+              layoutMap "Tall"     = icon "Tall.xpm"
+              layoutMap "ThreeCol" = icon "ThreeCol.xpm"
+              layoutMap _          = icon "unknown.xpm"

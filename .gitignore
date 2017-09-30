@@ -1,7 +1,7 @@
 *
 !.vim/
 .vim/bundle/*
-!.config/x/colours/washed
+!Colorschemes/*
 !.vimrc
 !.Xresources
 !.bashrc

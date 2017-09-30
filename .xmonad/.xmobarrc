@@ -4,6 +4,7 @@ Config
   , fgColor = "#cdcfce"
   , position = TopW L 100
   , lowerOnStart = True
+  , alpha = 200
   , commands =
     [ Run Cpu
       [ "-L", "3"
@@ -32,7 +33,7 @@ Config
       , "--normal","green"
       , "--high","red"
       ] 10
-    , Run Date "<fc=#ff0000>%H:%M %_d %b</fc>" "date" 10
+    , Run Date "<fc=#d15c83>%H:%M %_d %b</fc>" "date" 10
     , Run Locks
     , Run UnsafeStdinReader
     ]
